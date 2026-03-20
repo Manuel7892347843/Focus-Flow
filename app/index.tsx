@@ -1,13 +1,39 @@
-import { Text, useColorScheme, View } from "react-native";
-import AntDesign from '@expo/vector-icons/AntDesign';
+import { useState } from 'react';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { style } from './Style/style'
 
 export default function Index() {
-  const colorScheme = useColorScheme()
+    return (
+        <View style={style.background}>
+            <Text style={style.title}>FocusFlow</Text>
+            <Text style={style.sub_title}>Scopri il tuo ritmo naturale</Text>
 
-  return (
-    <View className="flex-1 justify-center bg-background flex-col items-center gap-4">
-      <AntDesign name="code" size={32} color={colorScheme === 'dark' ? 'white' : 'black'} />
-      <Text className="text-center text-2xl px-6 text-muted-foreground">Try using some Tailwind Classes in the markup like <Text className="font-semibold text-foreground"></Text>.</Text>
-    </View>
-  );
+            {/*Pannello delle modalita'*/}
+            <View style={style.mode_pane}>
+                <TouchableOpacity key={1} style={[style.mode_button, style.mode_button_active]}>
+                    <View style={[style.dot, { backgroundColor: '#1ECAD3' }]} />
+                    <Text style={[style.mode_text, style.mode_text_active]}>
+                        Focus
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity key={2} style={style.mode_button}>
+                    <View style={[style.dot, { backgroundColor: '#2ECC71' }]} />
+                    <Text style={style.mode_text}>
+                        Short Break
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity key={3} style={style.mode_button}>
+                    <View style={[style.dot, { backgroundColor: '#9B59B6' }]} />
+                    <Text style={style.mode_text}>
+                        Long Break
+                    </Text>
+                </TouchableOpacity>
+            </View>
+
+            {/*Timer*/}
+            <View>
+                <Text style={style.clock_text}>25:00</Text>
+            </View>
+        </View>
+    );
 }
