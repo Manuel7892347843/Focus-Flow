@@ -45,6 +45,7 @@ export default function Index() {
             </View>
             {/* belli puzzi */}
 
+            {/*Torri storto*/}
             {/*Ciao*/}
         </View>
     );
