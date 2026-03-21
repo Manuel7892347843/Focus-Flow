@@ -41,6 +41,10 @@ export default function Index() {
                 <TouchableOpacity style={style.start_button}>
                     <Text style={style.start_button_text}>Stop</Text>
                 </TouchableOpacity>
+
+                <TouchableOpacity style={style.start_button}>
+                    <Text style={style.start_button_text}>Stop</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
