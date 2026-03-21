@@ -43,6 +43,7 @@ export default function Index() {
                     <Text style={style.start_button_text}>Stop</Text>
                 </TouchableOpacity>
             </View>
+            {/* belli puzzi */}
         </View>
     );
 }
