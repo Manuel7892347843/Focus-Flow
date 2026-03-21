@@ -5,60 +5,57 @@ import Svg, { Circle } from 'react-native-svg';
 import { style } from './Style/style';
 
 export default function Index() {
-    const [secondi, setSecondi] = useState(0);
-    const [minuti, setMinuti] = useState(25);
+    const DEFAULT = 10
+    const [tempoRimanente, setTempoRimanente] = useState(DEFAULT * 60);
+    const [tempoTotale, setTempoTotale] = useState(DEFAULT * 60);
     const [attivo, setAttivo] = useState(false);
-    const [testo, setTesto] = useState("Start Focus");
-    const TOTALE = secondi + (minuti * 60);
+
     const C = 2 * Math.PI * 100;
-    const riempimento = (secondi / TOTALE) * C;
-    const vuoto = C - riempimento;
+    const riempimento = (tempoRimanente / tempoTotale) * C;
 
-    {/*const minuti = Math.floor(secondi / TOTALE);*/}
-
-    const secs = secondi % TOTALE;
-    const minuti_timer = secondi % TOTALE;
-    const rimanente = TOTALE - secondi;
-    const tempoFormattato = `${minuti}:${secs.toString().padStart(2, '0')}`;
+    const minuti = Math.floor(tempoRimanente / 60);
+    const secondi = tempoRimanente % 60;
+    const tempoFormattato = `${minuti}:${secondi.toString().padStart(2, '0')}`;
 
     useEffect(() => {
-        if (attivo && secondi < TOTALE) {
-        var  interval = setInterval(() => setSecondi(s => s - 1), 1000);
-        var min_interval = setInterval(() => setMinuti(m => m - 1), 60000);
+        let interval = 0;
+        if (attivo && tempoRimanente > 0) {
+            interval = setInterval(() => {
+                setTempoRimanente(prev => Math.max(prev - 1, 0));
+            }, 1000);
         }
-        return () => {clearInterval(interval); clearInterval(min_interval)}
-    }, [attivo, secondi, minuti]);
+        return () => clearInterval(interval);
+    }, [attivo, tempoRimanente]);
+
+    const aggiornaTempo = (min = 0, sec = 0) => {
+        const tot = min * 60 + sec;
+        setTempoRimanente(tot);
+        setTempoTotale(tot);
+    };
 
     return (
         <View style={style.background}>
             <Text style={style.title}>FocusFlow</Text>
             <Text style={style.sub_title}>Scopri il tuo ritmo naturale</Text>
 
-            {/*Pannello delle modalita'*/}
             <View style={style.mode_pane}>
                 <TouchableOpacity key={1} style={[style.mode_button, style.mode_button_active]}>
                     <View style={[style.dot, { backgroundColor: '#1ECAD3' }]} />
-                    <Text style={[style.mode_text, style.mode_text_active]}>
-                        Focus
-                    </Text>
+                    <Text style={[style.mode_text, style.mode_text_active]}>Focus</Text>
                 </TouchableOpacity>
                 <TouchableOpacity key={2} style={style.mode_button}>
                     <View style={[style.dot, { backgroundColor: '#2ECC71' }]} />
-                    <Text style={style.mode_text}>
-                        Short Break
-                    </Text>
+                    <Text style={style.mode_text}>Short Break</Text>
                 </TouchableOpacity>
                 <TouchableOpacity key={3} style={style.mode_button}>
                     <View style={[style.dot, { backgroundColor: '#9B59B6' }]} />
-                    <Text style={style.mode_text}>
-                        Long Break
-                    </Text>
+                    <Text style={style.mode_text}>Long Break</Text>
                 </TouchableOpacity>
             </View>
 
             <View style={style.clock_position}>
-                <Svg width="240" height="240" >
-                    {/* 1) CERCHIO DIETRO - sfondo grigio fisso */}
+                <Svg width="240" height="240">
+                    {/* Cerchio sfondo */}
                     <Circle 
                         cx="110" 
                         cy="110" 
@@ -67,8 +64,7 @@ export default function Index() {
                         strokeWidth="20" 
                         fill="none"
                     />
-                    
-                    {/* 2) CERCHIO DAVANTI - colore che cresce */}
+                    {/* Cerchio dinamico */}
                     <Circle 
                         cx="110" 
                         cy="110" 
@@ -82,29 +78,46 @@ export default function Index() {
                     />
                 </Svg>
 
-                {/* TEMPO AL CENTRO */}
                 <Text style={style.clock_text}>{tempoFormattato}</Text>
 
-                <View>
-                    {/* MINUTI */}
-                    <Picker
-                        selectedValue={minuti}
-                        style={{ height: 150, width: 100 }}
-                        onValueChange={(itemValue) => setMinuti(itemValue)}
-                    >
-                        {[...Array(60).keys()].map(i => (
-                        <Picker.Item key={i} label={`${i} min`} value={i} />
-                        ))}
-                    </Picker>
-                </View>
-                
-                
-                {/* BOTTONI */}
-                <View className="flex-row justify-center gap-10">
-                    <TouchableOpacity onPress={() => {setAttivo(!attivo)}} style={style.start_button}>
+                {/* PICKER MINUTI E SECONDI */}
+                {!attivo && (
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 10 }}>
+                        <Picker
+                            selectedValue={minuti}
+                            style={{ height: 150, width: 150}}
+                            itemStyle={{ color: '#EAF2F8', fontSize: 17 }}
+                            mode="dropdown"
+                            onValueChange={(itemValue) => aggiornaTempo(itemValue, secondi)}
+                        >
+                            {[...Array(60).keys()].map(i => (
+                                <Picker.Item key={i} label={`${i} min`} value={i} />
+                            ))}
+                        </Picker>
+
+                        <Picker
+                            selectedValue={secondi}
+                            style={{ height: 150, width: 150}}
+                            itemStyle={{ color: '#EAF2F8', fontSize: 17 }}
+                            mode="dropdown"
+                            onValueChange={(itemValue) => aggiornaTempo(minuti, itemValue)}
+                        >
+                            {[...Array(60).keys()].map(i => (
+                                <Picker.Item key={i} label={`${i} sec`} value={i} />
+                            ))}
+                        </Picker>
+                    </View>
+                )}
+
+                <View style={style.buttons_continer}>
+                    <TouchableOpacity onPress={() => setAttivo(!attivo)} style={style.start_button}>
                         <Text style={style.start_button_text}>{attivo ? "Stop Focus" : "Start Focus"}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {setAttivo(false); setSecondi(0);}} style={style.stop_button}>
+                    <TouchableOpacity onPress={() => {
+                        setTempoRimanente(DEFAULT*60);
+                        setTempoTotale(DEFAULT*60);
+                        setAttivo(false);
+                    }} style={style.restart_button}>
                         <Text style={style.start_button_text}>Restart</Text>
                     </TouchableOpacity>
                 </View>

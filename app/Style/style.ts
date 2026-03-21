@@ -52,12 +52,12 @@ export const style = StyleSheet.create({
         color: '#EAF2F8',
     },
     clock_text:{
-        fontSize: 60,
+        fontSize: 50,
         fontWeight: 'bold',
         color: '#EAF2F8',
         position: 'absolute',
-        marginTop: 65,
-        marginRight: 20
+        marginTop: 75,
+        marginRight: 20,
     },
     start_button:{
         backgroundColor: '#1ECAD3',
@@ -72,16 +72,22 @@ export const style = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
-    stop_button:{
+    restart_button:{
         backgroundColor: '#1ECAD3',
         padding: 12,
         borderRadius: 12,
         marginTop: 30,
-        width: 90
+        width: 150,
     },
     clock_position:{
         flex:1, 
         alignItems:'center',
-        marginTop: 10
+        marginTop: 10,
+    },
+    buttons_continer:{
+        flexDirection: 'row', 
+        justifyContent: 'center', 
+        gap: 10, 
+        marginTop: 20,
     }
 });
