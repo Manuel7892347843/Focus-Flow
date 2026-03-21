@@ -56,7 +56,8 @@ export const style = StyleSheet.create({
         fontWeight: 'bold',
         color: '#EAF2F8',
         position: 'absolute',
-        marginTop: -75
+        marginTop: 65,
+        marginRight: 20
     },
     start_button:{
         backgroundColor: '#1ECAD3',
@@ -80,7 +81,7 @@ export const style = StyleSheet.create({
     },
     clock_position:{
         flex:1, 
-        justifyContent:'center', 
-        alignItems:'center'  
+        alignItems:'center',
+        marginTop: 10
     }
 });

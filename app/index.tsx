@@ -1,15 +1,34 @@
-import React, { useState } from 'react';
+import { Picker } from '@react-native-picker/picker';
+import React, { useEffect, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { style } from './Style/style';
 
 export default function Index() {
-    const TOTALE = 60;
     const [secondi, setSecondi] = useState(0);
+    const [minuti, setMinuti] = useState(25);
     const [attivo, setAttivo] = useState(false);
+    const [testo, setTesto] = useState("Start Focus");
+    const TOTALE = secondi + (minuti * 60);
     const C = 2 * Math.PI * 100;
     const riempimento = (secondi / TOTALE) * C;
     const vuoto = C - riempimento;
+
+    {/*const minuti = Math.floor(secondi / TOTALE);*/}
+
+    const secs = secondi % TOTALE;
+    const minuti_timer = secondi % TOTALE;
+    const rimanente = TOTALE - secondi;
+    const tempoFormattato = `${minuti}:${secs.toString().padStart(2, '0')}`;
+
+    useEffect(() => {
+        if (attivo && secondi < TOTALE) {
+        var  interval = setInterval(() => setSecondi(s => s - 1), 1000);
+        var min_interval = setInterval(() => setMinuti(m => m - 1), 60000);
+        }
+        return () => {clearInterval(interval); clearInterval(min_interval)}
+    }, [attivo, secondi, minuti]);
+
     return (
         <View style={style.background}>
             <Text style={style.title}>FocusFlow</Text>
@@ -36,37 +55,59 @@ export default function Index() {
                     </Text>
                 </TouchableOpacity>
             </View>
-            
 
-            <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                
+            <View style={style.clock_position}>
                 <Svg width="240" height="240" >
-                    <Circle cx="120" cy="120" r="110" stroke="#1ECAD3" strokeWidth="20" fill="none" />
-                    {/* Colore che cresce - rotato per partire dall'alto */}
-                    <Circle
+                    {/* 1) CERCHIO DIETRO - sfondo grigio fisso */}
+                    <Circle 
                         cx="110" 
                         cy="110" 
                         r="100" 
-                        stroke="red" 
-                        strokeWidth="10" 
+                        stroke="#9c9c9c"      
+                        strokeWidth="20" 
                         fill="none"
-                        strokeDasharray={`${riempimento} ${vuoto}`}
+                    />
+                    
+                    {/* 2) CERCHIO DAVANTI - colore che cresce */}
+                    <Circle 
+                        cx="110" 
+                        cy="110" 
+                        r="100" 
+                        stroke="#1ECAD3"      
+                        strokeWidth="20" 
+                        fill="none"
+                        strokeDasharray={`${riempimento} ${C}`}  
+                        strokeLinecap="round"  
                         transform="rotate(-90 110 110)"
                     />
                 </Svg>
 
                 {/* TEMPO AL CENTRO */}
-                <Text style={style.clock_text}>26:00</Text>
+                <Text style={style.clock_text}>{tempoFormattato}</Text>
+
+                <View>
+                    {/* MINUTI */}
+                    <Picker
+                        selectedValue={minuti}
+                        style={{ height: 150, width: 100 }}
+                        onValueChange={(itemValue) => setMinuti(itemValue)}
+                    >
+                        {[...Array(60).keys()].map(i => (
+                        <Picker.Item key={i} label={`${i} min`} value={i} />
+                        ))}
+                    </Picker>
+                </View>
+                
                 
                 {/* BOTTONI */}
                 <View className="flex-row justify-center gap-10">
-                <TouchableOpacity style={style.start_button}>
-                    <Text style={style.start_button_text}>Start Focus</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={style.stop_button}>
-                    <Text style={style.start_button_text}>Restart</Text>
-                </TouchableOpacity>
-            </View>
+                    <TouchableOpacity onPress={() => {setAttivo(!attivo)}} style={style.start_button}>
+                        <Text style={style.start_button_text}>{attivo ? "Stop Focus" : "Start Focus"}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => {setAttivo(false); setSecondi(0);}} style={style.stop_button}>
+                        <Text style={style.start_button_text}>Restart</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     );
