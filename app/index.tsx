@@ -1,7 +1,15 @@
+import React, { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import Svg, { Circle } from 'react-native-svg';
 import { style } from './Style/style';
 
 export default function Index() {
+    const TOTALE = 60;
+    const [secondi, setSecondi] = useState(0);
+    const [attivo, setAttivo] = useState(false);
+    const C = 2 * Math.PI * 100;
+    const riempimento = (secondi / TOTALE) * C;
+    const vuoto = C - riempimento;
     return (
         <View style={style.background}>
             <Text style={style.title}>FocusFlow</Text>
@@ -28,19 +36,37 @@ export default function Index() {
                     </Text>
                 </TouchableOpacity>
             </View>
+            
 
-            {/*Timer*/}
-            <View>
-                <Text style={style.clock_text}>25:00</Text>
+            <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+                
+                <Svg width="240" height="240" >
+                    <Circle cx="120" cy="120" r="110" stroke="#1ECAD3" strokeWidth="20" fill="none" />
+                    {/* Colore che cresce - rotato per partire dall'alto */}
+                    <Circle
+                        cx="110" 
+                        cy="110" 
+                        r="100" 
+                        stroke="red" 
+                        strokeWidth="10" 
+                        fill="none"
+                        strokeDasharray={`${riempimento} ${vuoto}`}
+                        transform="rotate(-90 110 110)"
+                    />
+                </Svg>
+
+                {/* TEMPO AL CENTRO */}
+                <Text style={style.clock_text}>26:00</Text>
+                
+                {/* BOTTONI */}
+                <View className="flex-row justify-center gap-10">
+                <TouchableOpacity style={style.start_button}>
+                    <Text style={style.start_button_text}>Start Focus</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={style.stop_button}>
+                    <Text style={style.start_button_text}>Restart</Text>
+                </TouchableOpacity>
             </View>
-
-            <View className="flex-row justify-center gap-4">
-                <TouchableOpacity style={style.start_button}>
-                    <Text style={style.start_button_text}>Start</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={style.start_button}>
-                    <Text style={style.start_button_text}>Stop</Text>
-                </TouchableOpacity>
             </View>
         </View>
     );

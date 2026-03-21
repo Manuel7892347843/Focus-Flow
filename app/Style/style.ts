@@ -55,14 +55,15 @@ export const style = StyleSheet.create({
         fontSize: 60,
         fontWeight: 'bold',
         color: '#EAF2F8',
-        alignSelf: 'center',
+        position: 'absolute',
+        marginTop: -75
     },
     start_button:{
         backgroundColor: '#1ECAD3',
         padding: 12,
         borderRadius: 12,
         marginTop: 30,
-        width: 100,
+        width: 150,
     },
     start_button_text:{
         color: '#0B1A2B',
@@ -70,4 +71,16 @@ export const style = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
+    stop_button:{
+        backgroundColor: '#1ECAD3',
+        padding: 12,
+        borderRadius: 12,
+        marginTop: 30,
+        width: 90
+    },
+    clock_position:{
+        flex:1, 
+        justifyContent:'center', 
+        alignItems:'center'  
+    }
 });
