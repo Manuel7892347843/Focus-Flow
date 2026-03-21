@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-import { style } from './Style/style'
+import { Text, TouchableOpacity, View } from 'react-native';
+import { style } from './Style/style';
 
 export default function Index() {
     return (
@@ -39,10 +38,6 @@ export default function Index() {
                 <TouchableOpacity style={style.start_button}>
                     <Text style={style.start_button_text}>Start</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={style.start_button}>
-                    <Text style={style.start_button_text}>Stop</Text>
-                </TouchableOpacity>
-
                 <TouchableOpacity style={style.start_button}>
                     <Text style={style.start_button_text}>Stop</Text>
                 </TouchableOpacity>
