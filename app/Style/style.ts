@@ -56,5 +56,18 @@ export const style = StyleSheet.create({
         fontWeight: 'bold',
         color: '#EAF2F8',
         alignSelf: 'center',
-    }
+    },
+    start_button:{
+        backgroundColor: '#1ECAD3',
+        padding: 12,
+        borderRadius: 12,
+        marginTop: 30,
+        width: 100,
+    },
+    start_button_text:{
+        color: '#0B1A2B',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
 });

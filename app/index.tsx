@@ -34,6 +34,15 @@ export default function Index() {
             <View>
                 <Text style={style.clock_text}>25:00</Text>
             </View>
+
+            <View className="flex-row justify-center gap-4">
+                <TouchableOpacity style={style.start_button}>
+                    <Text style={style.start_button_text}>Start</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={style.start_button}>
+                    <Text style={style.start_button_text}>Stop</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
