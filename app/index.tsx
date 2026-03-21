@@ -44,7 +44,7 @@ export default function Index() {
                 </TouchableOpacity>
             </View>
             {/* belli puzzi */}
-
+            {/*fsalkasjd*/}
             {/*Ciao*/}
         </View>
     );
