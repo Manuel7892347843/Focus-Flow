@@ -1,25 +1,25 @@
 import { Picker } from '@react-native-picker/picker';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-    Animated,
-    Dimensions,
-    GestureResponderEvent,
+    Animated, Dimensions, GestureResponderEvent,
     ScrollView,
     Switch,
     Text,
     TextInput,
     TouchableOpacity,
-    View
+    View,
 } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { style } from './Style';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 const PANEL_MIN_HEIGHT = 120;
 const PANEL_MAX_HEIGHT = SCREEN_HEIGHT * 0.8;
 
 export default function Index() {
-    const [DEFAULT, setDefaultTime] = useState('10');
+    const [DEFAULT, setDefaultTime] = useState('25');
     const [tempoRimanente, setTempoRimanente] = useState(parseInt(DEFAULT) * 60);
     const [tempoTotale, setTempoTotale] = useState(parseInt(DEFAULT) * 60);
     const [attivo, setAttivo] = useState(false);
@@ -190,29 +190,33 @@ export default function Index() {
 
                         {!attivo && (
                             <View style={style.pickerContainer}>
-                                <Picker
-                                    selectedValue={minuti}
-                                    style={style.picker}
-                                    itemStyle={style.pickerItem}
-                                    mode="dropdown"
-                                    onValueChange={(itemValue) => aggiornaTempo(itemValue, secondi)}
-                                >
-                                    {[...Array(60).keys()].map(i => (
-                                        <Picker.Item key={i} label={`${i} min`} value={i} />
-                                    ))}
-                                </Picker>
+                                <View style={style.pickerBox}>
+                                    <Picker
+                                        selectedValue={minuti}
+                                        style={style.picker}
+                                        itemStyle={style.pickerItem}
+                                        onValueChange={(itemValue) => aggiornaTempo(itemValue, secondi)}
+                                    >
+                                        {[...Array(61).keys()].map(i => (
+                                            <Picker.Item key={i} label={`${i} min`} value={i} />
+                                        ))}
+                                    </Picker>
+                                </View>
 
-                                <Picker
-                                    selectedValue={secondi}
-                                    style={style.picker}
-                                    itemStyle={style.pickerItem}
-                                    mode="dropdown"
-                                    onValueChange={(itemValue) => aggiornaTempo(minuti, itemValue)}
-                                >
-                                    {[...Array(60).keys()].map(i => (
-                                        <Picker.Item key={i} label={`${i} sec`} value={i} />
-                                    ))}
-                                </Picker>
+                                <Text style={style.dots}>:</Text>
+
+                                <View style={style.pickerBox}>
+                                    <Picker
+                                        selectedValue={secondi}
+                                        style={style.picker}
+                                        itemStyle={style.pickerItem}
+                                        onValueChange={(itemValue) => aggiornaTempo(minuti, itemValue)}
+                                    >
+                                        {[...Array(60).keys()].map(i => (
+                                            <Picker.Item key={i} label={`${i} sec`} value={i} />
+                                        ))}
+                                    </Picker>
+                                </View>
                             </View>
                         )}
 
@@ -324,8 +328,8 @@ export default function Index() {
                                     value={DEFAULT}
                                     onChangeText={(text) => {
                                         let numericValue = text.replace(/[^0-9]/g, '');
-                                        if(parseInt(numericValue) >= 60)
-                                            numericValue = "59";
+                                        if(parseInt(numericValue) >= 61)
+                                            numericValue = "60";
                                         setDefaultTime(numericValue);
                                     }}
                                     onEndEditing={() => salvaTimerPredefinito(DEFAULT)}

@@ -20,6 +20,7 @@ export const timerStyles = StyleSheet.create({
         color: COLORS.textPrimary,
         position: 'absolute',
         marginTop: 75,
+        marginRight: 20,
     },
     
     // Container bottoni start/restart

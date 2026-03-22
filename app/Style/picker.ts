@@ -1,29 +1,43 @@
-import { StyleSheet } from 'react-native';
-import { COLORS } from './colors';
+import { Dimensions, StyleSheet } from 'react-native';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 // ============================================
 // 🎛️ PICKER - Selezione minuti e secondi
 // ============================================
 
 export const pickerStyles = StyleSheet.create({
-    // Container picker
     pickerContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
-        gap: 10,
-        marginTop: -40,
+        alignItems: 'center',
+        gap: 12,
+        marginTop: -10,
     },
     
-    // Stile picker
+    pickerBox: {
+        backgroundColor: 'rgba(30, 202, 211, 0.15)',
+        borderRadius: 16,
+        padding: 5,
+        alignItems: 'center',
+        minWidth: 90,
+    },
+    
     picker: {
-        height: 150,
-        width: 100,
+        height: 80,
+        width: 120,
+        color: '#ffffff',
     },
     
-    // Stile item picker
     pickerItem: {
-        color: COLORS.textPrimary,
-        fontSize: 17,
+        color: '#ffffff',
+        fontSize: 18,
+    },
+    
+    dots: {
+        color: '#1ECAD3',
+        fontSize: 20,
+        fontWeight: 'bold',
     },
 });
 
