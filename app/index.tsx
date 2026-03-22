@@ -12,6 +12,7 @@ import {
 import Svg, { Circle } from 'react-native-svg';
 import { style } from './Style';
 
+
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -130,6 +131,7 @@ export default function Index() {
         const num = parseInt(valore) || 10;
         setDefaultTime(num.toString());
     };
+    
 
     return (
         <View style={style.mainContainer}>
@@ -197,7 +199,7 @@ export default function Index() {
                                         itemStyle={style.pickerItem}
                                         onValueChange={(itemValue) => aggiornaTempo(itemValue, secondi)}
                                     >
-                                        {[...Array(61).keys()].map(i => (
+                                        {[...Array(60).keys()].map(i => (
                                             <Picker.Item key={i} label={`${i} min`} value={i} />
                                         ))}
                                     </Picker>
