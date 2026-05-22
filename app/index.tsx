@@ -9,7 +9,7 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    View
+    View,
 } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import { style } from "./Style";
@@ -159,7 +159,10 @@ export default function Index() {
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     }
     // Sound notification would be here (using expo-av)
-    Alert.alert('Session Complete! 🎉', `Great job! ${MODES[mode].label} session finished.`);
+    Alert.alert(
+      "Session Complete! 🎉",
+      `Great job! ${MODES[mode].label} session finished.`,
+    );
   };
 
   const completeSession = () => {
@@ -176,17 +179,17 @@ export default function Index() {
   };
 
   const autoSwitchMode = () => {
-    if (mode === 'focus') {
+    if (mode === "focus") {
       setFocusCount((prev) => prev + 1);
       if (focusCount + 1 >= 4) {
         // After 4 focus sessions, long break
-        switchMode('longBreak');
+        switchMode("longBreak");
         setFocusCount(0);
       } else {
-        switchMode('shortBreak');
+        switchMode("shortBreak");
       }
     } else {
-      switchMode('focus');
+      switchMode("focus");
     }
   };
 
@@ -267,7 +270,9 @@ export default function Index() {
                 onPress={() => !attivo && switchMode(modeKey as TimerMode)}
                 disabled={attivo}
               >
-                <View style={[style.dot, { backgroundColor: modeData.color }]} />
+                <View
+                  style={[style.dot, { backgroundColor: modeData.color }]}
+                />
                 <Text
                   style={[
                     style.mode_text,
@@ -329,9 +334,7 @@ export default function Index() {
                     selectedValue={secondi}
                     style={style.picker}
                     itemStyle={style.pickerItem}
-                    onValueChange={(itemValue) =>
-                      updateTime(minuti, itemValue)
-                    }
+                    onValueChange={(itemValue) => updateTime(minuti, itemValue)}
                   >
                     {[...Array(60).keys()].map((i) => (
                       <Picker.Item key={i} label={`${i} sec`} value={i} />
@@ -347,7 +350,9 @@ export default function Index() {
                 style={style.start_button}
               >
                 <Text style={style.start_button_text}>
-                  {attivo ? `Stop ${MODES[mode].label}` : `Start ${MODES[mode].label}`}
+                  {attivo
+                    ? `Stop ${MODES[mode].label}`
+                    : `Start ${MODES[mode].label}`}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -398,7 +403,9 @@ export default function Index() {
               <Text style={style.statLabel}>sessioni oggi</Text>
             </View>
             <View style={style.statBox}>
-              <Text style={style.statNumber}>{Math.floor(stats.minutiTotali)}m</Text>
+              <Text style={style.statNumber}>
+                {Math.floor(stats.minutiTotali)}m
+              </Text>
               <Text style={style.statLabel}>focus totale</Text>
             </View>
           </View>
@@ -480,18 +487,26 @@ export default function Index() {
                   maxLength={2}
                 />
               </View>
-              
+
               <View style={style.sectionTitle}>
-                <Text style={[style.settingText, { marginTop: 15 }]}>Durate modalità</Text>
+                <Text style={[style.settingText, { marginTop: 15 }]}>
+                  Durate modalità
+                </Text>
               </View>
               <View style={[style.settingOption, { marginTop: 10 }]}>
-                <Text style={style.settingText}>Focus: {MODES.focus.minutes} min</Text>
+                <Text style={style.settingText}>
+                  Focus: {MODES.focus.minutes} min
+                </Text>
               </View>
               <View style={style.settingOption}>
-                <Text style={style.settingText}>Short Break: {MODES.shortBreak.minutes} min</Text>
+                <Text style={style.settingText}>
+                  Short Break: {MODES.shortBreak.minutes} min
+                </Text>
               </View>
               <View style={style.settingOption}>
-                <Text style={style.settingText}>Long Break: {MODES.longBreak.minutes} min</Text>
+                <Text style={style.settingText}>
+                  Long Break: {MODES.longBreak.minutes} min
+                </Text>
               </View>
             </ScrollView>
           </View>
