@@ -1,22 +1,20 @@
-import '@/global.css'
-import { PortalHost } from '@rn-primitives/portal'
+import "@/global.css";
+import { TimerProvider } from "@/lib/TimerContext";
+import { PortalHost } from "@rn-primitives/portal";
 import { Stack } from "expo-router";
-import { useColorScheme } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from "expo-status-bar";
+import { useColorScheme } from "react-native";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme()
+  const colorScheme = useColorScheme();
 
   return (
-    <>
-      <StatusBar
-        style={colorScheme === 'dark' ? 'light' : 'dark'}
-        animated
-      />
-      <Stack screenOptions={{ headerShown: false}}>
-        <Stack.Screen name='index' />
+    <TimerProvider>
+      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} animated />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
       </Stack>
       <PortalHost />
-    </>
+    </TimerProvider>
   );
 }
