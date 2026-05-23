@@ -11,33 +11,38 @@ export const pickerStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 12,
-        marginTop: -10,
+        gap: 10,
+        marginTop: 15,
+        marginBottom: 10,
     },
     
     pickerBox: {
-        backgroundColor: 'rgba(30, 202, 211, 0.15)',
-        borderRadius: 16,
-        padding: 5,
+        backgroundColor: 'rgba(30, 202, 211, 0.08)',
+        borderRadius: 12,
+        padding: 2,
         alignItems: 'center',
-        minWidth: 90,
+        minWidth: 80,
+        borderWidth: 1,
+        borderColor: 'rgba(30, 202, 211, 0.2)',
     },
     
     picker: {
-        height: 80,
-        width: 120,
-        color: '#ffffff',
+        height: 70,
+        width: 100,
+        color: '#1e293b',
     },
     
     pickerItem: {
-        color: '#ffffff',
-        fontSize: 18,
+        color: '#1e293b',
+        fontSize: 16,
+        fontWeight: '600',
     },
     
     dots: {
         color: '#1ECAD3',
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
+        opacity: 0.6,
     },
 });
 

@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { COLORS } from './colors';
 
 // ============================================
-// ⚙️ IMPOSTAZIONI - Switch, opzioni, righe
+// IMPOSTAZIONI - Switch, opzioni, righe
 // ============================================
 
 export const settingsStyles = StyleSheet.create({

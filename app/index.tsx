@@ -1,6 +1,10 @@
+import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-import { useEffect, useRef, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Haptics from "expo-haptics";
+import { useEffect, useRef, useState, useCallback } from "react";
 import {
+    Alert,
     Animated,
     Dimensions,
     GestureResponderEvent,
@@ -158,18 +162,19 @@ export default function Index() {
     if (vibrationEnabled) {
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     }
-    // Sound notification would be here (using expo-av)
+    const durationMinutes = Math.floor(tempoTotale / 60);
     Alert.alert(
-      "Session Complete! 🎉",
-      `Great job! ${MODES[mode].label} session finished.`,
+      "Sessione Completata! 🎉",
+      `Ottimo lavoro! La sessione di ${MODES[mode].label} da ${durationMinutes} minuti è terminata.`,
     );
   };
 
   const completeSession = () => {
+    const durationMinutes = Math.floor(tempoTotale / 60);
     const newSession: Session = {
       id: Date.now().toString(),
       mode,
-      duration: MODES[mode].minutes,
+      duration: durationMinutes,
       date: new Date().toISOString(),
     };
     const updatedSessions = [...sessions, newSession];
@@ -201,7 +206,9 @@ export default function Index() {
   };
 
   const updateTime = (min = 0, sec = 0) => {
-    const tot = min * 60 + sec;
+    const m = typeof min === "string" ? parseInt(min) : min;
+    const s = typeof sec === "string" ? parseInt(sec) : sec;
+    const tot = m * 60 + s;
     setTempoRimanente(tot);
     setTempoTotale(tot);
   };
@@ -254,7 +261,7 @@ export default function Index() {
                 onPress={openSettings}
                 style={style.settingsButton}
               >
-                <Text style={style.settingsIcon}>⚙️</Text>
+                <Ionicons name="settings-outline" size={24} color="#ffffff" />
               </TouchableOpacity>
             </View>
           </View>
@@ -381,7 +388,9 @@ export default function Index() {
           <View style={style.dragHandle} />
           <Text style={style.panelTitle}>Sessioni oggi</Text>
           <Text style={style.panelSubtitle}>
-            Nessuna sessione completata. Inizia ora!
+            {sessions.length === 0 
+              ? "Nessuna sessione completata. Inizia ora!" 
+              : `${sessions.length} ${sessions.length === 1 ? 'sessione completata' : 'sessioni completate'} oggi`}
           </Text>
         </TouchableOpacity>
 
