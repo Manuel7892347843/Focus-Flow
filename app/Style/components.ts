@@ -37,7 +37,7 @@ export const componentStyles = StyleSheet.create({
         fontSize: 18,
         borderWidth: 2,
         borderColor: COLORS.primary,
-        width: 90,
+        width: 100,
         textAlign: 'center',
         backgroundColor: COLORS.backgroundInput,
     },
