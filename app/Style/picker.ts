@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from 'react-native';
+﻿import { Dimensions, StyleSheet } from 'react-native';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -17,32 +17,32 @@ export const pickerStyles = StyleSheet.create({
     },
     
     pickerBox: {
-        backgroundColor: 'rgba(30, 202, 211, 0.08)',
+        backgroundColor: 'rgba(30, 202, 211, 0.15)',
         borderRadius: 12,
-        padding: 2,
+        padding: 8,
         alignItems: 'center',
-        minWidth: 80,
-        borderWidth: 1,
-        borderColor: 'rgba(30, 202, 211, 0.2)',
+        minWidth: 90,
+        borderWidth: 2,
+        borderColor: 'rgba(30, 202, 211, 0.4)',
     },
     
     picker: {
-        height: 70,
+        height: 80,
         width: 100,
-        color: '#1e293b',
+        color: '#EAF2F8',
     },
     
     pickerItem: {
-        color: '#1e293b',
-        fontSize: 16,
-        fontWeight: '600',
+        color: '#EAF2F8',
+        fontSize: 18,
+        fontWeight: '700',
     },
     
     dots: {
         color: '#1ECAD3',
-        fontSize: 18,
+        fontSize: 28,
         fontWeight: 'bold',
-        opacity: 0.6,
+        opacity: 0.8,
     },
 });
 

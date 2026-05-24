@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+﻿import { StyleSheet } from 'react-native';
 import { COLORS } from './colors';
 
 // ============================================
@@ -30,14 +30,14 @@ export const componentStyles = StyleSheet.create({
     
     // Input text
     input: {
-        borderRadius: 8,
-        paddingHorizontal: 15,
-        paddingVertical: 12,
+        borderRadius: 12,
+        paddingHorizontal: 16,
+        paddingVertical: 14,
         color: COLORS.textPrimary,
-        fontSize: 16,
-        borderWidth: 1,
+        fontSize: 18,
+        borderWidth: 2,
         borderColor: COLORS.primary,
-        width: 80,
+        width: 90,
         textAlign: 'center',
         backgroundColor: COLORS.backgroundInput,
     },
