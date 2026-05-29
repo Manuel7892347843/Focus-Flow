@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="theme-color" content="#667eea">
+    <meta name="description" content="Focus Flow - App di produttività con tecnica Pomodoro">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23667eea' width='192' height='192'/><text x='96' y='120' font-size='100' fill='white' text-anchor='middle'>⏱</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23667eea' width='192' height='192' rx='45'/><text x='96' y='120' font-size='100' fill='white' text-anchor='middle'>⏱</text></svg>">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Focus Flow">
+    <title>Focus Flow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow: hidden;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+
+        #app {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            max-width: 500px;
+            width: 100%;
+            margin: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #999;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .timer-display {
+            font-size: 64px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 30px 0;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 8px;
+        }
+
+        .mode-label {
+            font-size: 14px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            min-width: 100px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .stats {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .mode-buttons {
+            display: flex;
+            gap: 8px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .mode-btn {
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn.active {
+            border-color: #667eea;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .logo {
+                font-size: 60px;
+            }
+
+            .timer-display {
+                font-size: 48px;
+                letter-spacing: 4px;
+            }
+
+            .btn {
+                padding: 10px 16px;
+                font-size: 13px;
+                min-width: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="logo">⏱️</div>
+            <h1>Focus Flow</h1>
+            <p class="subtitle">Gestisci il tuo tempo con il Pomodoro</p>
+
+            <div class="mode-buttons">
+                <button class="mode-btn active" onclick="setMode('focus')">🎯 Focus</button>
+                <button class="mode-btn" onclick="setMode('short')">☕ Short Break</button>
+                <button class="mode-btn" onclick="setMode('long')">🌳 Long Break</button>
+            </div>
+
+            <div class="mode-label" id="modeLabel">Sessione di Lavoro</div>
+
+            <div class="timer-display" id="timerDisplay">25:00</div>
+
+            <div class="buttons">
+                <button class="btn btn-primary" id="startBtn" onclick="startTimer()">▶ Avvia</button>
+                <button class="btn btn-secondary" id="pauseBtn" onclick="pauseTimer()" style="display:none;">⏸ Pausa</button>
+                <button class="btn btn-secondary" onclick="resetTimer()">🔄 Reset</button>
+            </div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    Sessioni completate oggi: <span class="stat-value" id="sessionsToday">0</span>
+                </div>
+                <div class="stat-item">
+                    Tempo totale: <span class="stat-value" id="totalTime">0m</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // App State
+        let state = {
+            mode: 'focus', // focus, short, long
+            timeLeft: 25 * 60, // in secondi
+            isRunning: false,
+            sessionsToday: parseInt(localStorage.getItem('sessionsToday') || '0'),
+            totalTime: parseInt(localStorage.getItem('totalTime') || '0'),
+            timerInterval: null
+        };
+
+        const DURATIONS = {
+            focus: 25 * 60,
+            short: 5 * 60,
+            long: 15 * 60
+        };
+
+        // Registra Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(reg => console.log('Service Worker registrato'))
+                .catch(err => console.log('Errore Service Worker:', err));
+        }
+
+        function updateDisplay() {
+            const minutes = Math.floor(state.timeLeft / 60);
+            const seconds = state.timeLeft % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            
+            document.getElementById('sessionsToday').textContent = state.sessionsToday;
+            document.getElementById('totalTime').textContent = 
+                `${Math.floor(state.totalTime / 60)}m`;
+        }
+
+        function setMode(mode) {
+            state.mode = mode;
+            state.timeLeft = DURATIONS[mode];
+            
+            const labels = {
+                focus: 'Sessione di Lavoro',
+                short: 'Pausa Breve',
+                long: 'Pausa Lunga'
+            };
+            
+            document.getElementById('modeLabel').textContent = labels[mode];
+            
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            resetTimer();
+        }
+
+        function startTimer() {
+            if (state.isRunning) return;
+            
+            state.isRunning = true;
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('pauseBtn').style.display = 'inline-block';
+            
+            state.timerInterval = setInterval(() => {
+                state.timeLeft--;
+                state.totalTime++;
+                
+                updateDisplay();
+                
+                if (state.timeLeft === 0) {
+                    finishSession();
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            state.isRunning = false;
+            clearInterval(state.timerInterval);
+            
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('pauseBtn').style.display = 'none';
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            state.timeLeft = DURATIONS[state.mode];
+            updateDisplay();
+        }
+
+        function finishSession() {
+            pauseTimer();
+            
+            if (state.mode === 'focus') {
+                state.sessionsToday++;
+                localStorage.setItem('sessionsToday', state.sessionsToday);
+                
+                // Notifica
+                if ('Notification' in window && Notification.permission === 'granted') {
+                    new Notification('Focus Flow', {
+                        body: 'Sessione completata! Prendi una pausa.',
+                        icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect fill="%23667eea" width="192" height="192"/><text x="96" y="120" font-size="100" fill="white" text-anchor="middle">⏱</text></svg>'
+                    });
+                }
+                
+                alert('✅ Sessione completata! Prendi una pausa.');
+            } else {
+                alert('☕ Pausa terminata! Pronto per una nuova sessione?');
+            }
+            
+            localStorage.setItem('totalTime', state.totalTime);
+            updateDisplay();
+        }
+
+        // Richiedi notifiche
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+
+        // Salva state ogni secondo
+        setInterval(() => {
+            localStorage.setItem('totalTime', state.totalTime);
+        }, 5000);
+
+        // Inizializza
+        updateDisplay();
+    </script>
+</body>
+</html>
